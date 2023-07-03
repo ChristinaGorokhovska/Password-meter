@@ -1,15 +1,11 @@
-import { Grid } from "@mui/material";
-import Form from "./components/Form";
+import { Route, Routes } from "react-router-dom";
+import Password from "./pages/Password";
 
 function App() {
   return (
-    <>
-      <Grid container display={"flex"} justifyContent={"center"} alignItems={"center"}>
-        <Grid item xs={4} marginTop={20}>
-          <Form />
-        </Grid>
-      </Grid>
-    </>
+    <Routes>
+      <Route path="/" element={<Password />} />
+    </Routes>
   );
 }
 
