@@ -7,13 +7,19 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 export default function Form() {
   const [password, setPassword] = useState<string>();
-  const [strength, setStrength] = useState<number>();
+  const [strength, setStrength] = useState<number>(0);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [errors, setErrors] = useState<string>();
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
     const score = checkStrength(password || "");
+    if (score < 0) {
+      setErrors("Password should contain at least 8 characters (letters a-z, digits and symbols)");
+    } else {
+      setErrors("");
+    }
     setStrength(score);
   }, [password]);
 
@@ -46,10 +52,16 @@ export default function Form() {
         />
         <Strengths
           value="Medium"
-          color={strength === 2 ? "yellow" : strength === 3 ? "green" : strength === -1 ? "red" : "grey"}
+          color={strength === 2 ? "yellow" : strength === 3 ? "green" : strength < 0 ? "red" : "grey"}
         />
-        <Strengths value="Strong" color={strength === 3 ? "green" : strength === -1 ? "red" : "grey"} />
+        <Strengths value="Strong" color={strength === 3 ? "green" : strength < 0 ? "red" : "grey"} />
       </Grid>
+
+      {errors && (
+        <Typography mt={2} variant="body2" color="red">
+          {errors}
+        </Typography>
+      )}
     </Card>
   );
 }
